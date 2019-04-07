@@ -1,6 +1,7 @@
 /*
   Modules
 */
+import { peerSocket } from 'messaging';
 import { HeartRateSensor } from 'heart-rate';
 import { geolocation } from 'geolocation';
 const SECOND = 1000;
@@ -14,13 +15,21 @@ hrm.start();
 /*
   Main
 */
+function send(command, data) {
+  if (peerSocket.readyState === peerSocket.OPEN) {
+    peerSocket.send([command, data]);
+  }
+}
+
 function getHeartRate() {
-  console.log('heart rate:', hrm.heartRate);
+  const heartRate = hrm.heartRate ? hrm.heartRate : 0;
+  send('hr', heartRate);
 }
 
 function getLocation() {
   geolocation.getCurrentPosition(function (position) {
-    console.log('position:', position.coords.latitude, position.coords.longitude)
+    const { latitude, longitude } = position.coords;
+    send('loc', { lat: latitude, lon: longitude });
   });
 }
 
