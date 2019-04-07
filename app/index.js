@@ -2,6 +2,7 @@
   Modules
 */
 import { HeartRateSensor } from 'heart-rate';
+import { geolocation } from 'geolocation';
 const SECOND = 1000;
 
 /*
@@ -13,10 +14,20 @@ hrm.start();
 /*
   Main
 */
-function main() {
+function getHeartRate() {
   console.log('heart rate:', hrm.heartRate);
 }
 
-// Initialize the app. Will run the main function every second.
-main();
-setInterval(main, 1 * SECOND);
+function getLocation() {
+  geolocation.getCurrentPosition(function (position) {
+    console.log('position:', position.coords.latitude, position.coords.longitude)
+  });
+}
+
+// Get heart rate every second.
+getHeartRate();
+setInterval(getHeartRate, 1 * SECOND);
+
+// Get location every 15 seconds.
+getLocation();
+setInterval(getLocation, 15 * SECOND);
