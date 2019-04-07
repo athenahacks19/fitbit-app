@@ -37,6 +37,10 @@ peerSocket.onmessage = event => {
     url = `${config.server}/location?userId=${userId}&lat=${data.lat}&lon=${data.lon}`;
     console.log(`Sending location: ${data.lat} ${data.lon}`);
   }
+  if (command === 'alert') {
+    url = `${config.server}/alert?userId=${userId}`;
+    console.log(`Sending alert!`);
+  }
   fetch(url, {
     method: 'POST',
     mode: 'cors',
