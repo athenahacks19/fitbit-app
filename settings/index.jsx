@@ -7,7 +7,13 @@ function settingsComponent(props) {
             App Settings
           </Text>
         }
-      />
+      >
+        <TextInput
+          label="ID"
+          settingsKey="id"
+        >
+        </TextInput>
+      </Section>
     </Page>
   );
 }
